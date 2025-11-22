@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Encuesta: Evaluación Plan Estratégico</title>
+  <link rel="icon" type="image/x-icon" sizes="32x32" href="./public/assets/img/Logo.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link rel="stylesheet" href="./public/assets/css/styles.css">
+</head>
+<body>
+    <div class="container py-5">
+        <div class="card shadow-sm border-0">
+          <div class="card-body">
+            <div class="header mb-4 form-card">
+              <img src="./public/assets/img/Logo.png" alt="Logo Cooeducord" class="header-logo">
+              <div class="header-head">
+                <h1 class="card-title text-center mb-3">Ayúdanos a construir la cooperativa que necesitas, responde esta encuesta y gana premios</h1>
+              </div>
+              
+            </div>
+            <p class="text-muted">Completa la encuesta (campos con * obligatorios).</p>
+            <form id="surveyForm" novalidate>
+              <!-- IDENTIFICACIÓN -->
+              <div class="mb-3 form-card">
+                <label for="identificacion" class="form-label">Número de identificación del asociado *</label>
+                <input type="number" id="identificacion" name="identificacion" class="form-control col-md-4"  required>
+                <div class="invalid-feedback">Ingresa tu número de identificación.</div>
+                <small id="userCheck" class="form-text text-danger d-none">Usuario no encontrado — no puedes responder la encuesta.</small>
+              </div>
+    
+              <!-- Pregunta 1 -->
+              <div class="mb-3 form-card">
+                <label class="form-label"><span class="question-number">1</span>Conoce usted el portafolio de servicios que brinda COOEDUCORD para sus asociados? *</label>
+                <div>
+                  <div class="form-check">
+                    <input class="form-check-input q1" type="radio" name="q1" id="q1_si" value="SI" required>
+                    <label class="form-check-label" for="q1_si">SI</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input q1" type="radio" name="q1" id="q1_no" value="NO">
+                    <label class="form-check-label" for="q1_no">NO</label>
+                  </div>
+                </div>
+                <div class="invalid-feedback">Selecciona SI o NO.</div>
+              </div>
+    
+              <!-- Pregunta 2 -->
+              <div class="mb-3 form-card">
+                <label class="form-label">
+                  <span class="question-number">2</span>El portafolio de servicios ofrecidos por Cooeducord (créditos, créditos por convenio, tours, solidaridad, formación en cooperativismo, deporte, recreación y cultura y sede recreacional Punta Bolívar, entre otros) está acorde con sus necesidades?.  *</label>
+                <div>
+                  <div class="form-check">
+                    <input class="form-check-input q2" type="radio" name="q2" id="q2_si" value="SI" required>
+                    <label class="form-check-label" for="q2_si">SI</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input q2" type="radio" name="q2" id="q2_no" value="NO">
+                    <label class="form-check-label" for="q2_no">NO</label>
+                  </div>
+                </div>
+                <div class="invalid-feedback">Selecciona SI o NO.</div>
+              </div>
+    
+              <div class="mb-3 d-none form-card" id="q2_sub_no">
+                <label for="q2_no_comment" class="form-label">Si su respuesta es “No” por favor ayudemos a mejorar y coméntenos como podemos hacerlo?</label>
+                <textarea id="q2_no_comment" name="q2_no_comment" class="form-control" rows="2"></textarea>
+              </div>
+
+              <!-- Pregunta 3 -->    
+              <div class="mb-3 form-card">
+                <label class="form-label"><span class="question-number">3</span>Teniendo en cuenta que los recursos económicos son limitados, cree usted que las actividades realizadas por el comité de Educación y Bienestar Social (Solidaridad, eventos de formación, recreación, deporte y cultura) satisfacen las necesidades de los asociados? *</label>
+                <div>
+                  <div class="form-check">
+                    <input class="form-check-input q3" type="radio" name="q3" id="q3_si" value="SI" required>
+                    <label class="form-check-label" for="q2_si">SI</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input q3" type="radio" name="q3" id="q3_no" value="NO">
+                    <label class="form-check-label" for="q3_no">NO</label>
+                  </div>
+                </div>
+                <div class="invalid-feedback">Selecciona SI o NO.</div>
+              </div>
+    
+              <div class="mb-3 d-none form-card" id="q3_sub_no">
+                <label for="q3_no_comment" class="form-label">Si su respuesta es “No” por favor ayudemos a mejorar y coméntenos como podemos hacerlo?.</label>
+                <textarea id="q3_no_comment" name="q3_no_comment" class="form-control" rows="2"></textarea>
+              </div>
+    
+              <!-- Pregunta 4 -->
+              <div class="mb-3 form-card">
+                <label class="form-label"><span class="question-number">4</span>Consulta usted las plataformas virtuales (página web y redes sociales) para enterarse de noticias, eventos y gestión del portafolio? *</label>
+                <div>
+                  <div class="form-check">
+                    <input class="form-check-input q4" type="radio" name="q4" id="q4_si" value="SI" required>
+                    <label class="form-check-label" for="q4_si">SI</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input q4" type="radio" name="q4" id="q4_no" value="NO">
+                    <label class="form-check-label" for="q4_no">NO</label>
+                  </div>
+                </div>
+                <div class="invalid-feedback">Selecciona SI o NO.</div>
+              </div>
+    
+              <div class="mb-3 d-none form-card" id="q4_sub_no">
+                <label for="q4_no_comment" class="form-label">Si su respuesta es “No” por favor ayudemos a mejorar y coméntenos como podemos hacerlo?.</label>
+                <textarea id="q4_no_comment" name="q4_no_comment" class="form-control" rows="2"></textarea>
+              </div>
+    
+              <!-- Pregunta 5 -->
+              <div class="mb-3 form-card">
+                <label class="form-label"><span class="question-number">5</span>Estaría usted dispuesto a utilizar el servicio de oficina virtual para gestionar los servicios ofrecidos por la Cooperativa? *</label>
+                <div>
+                  <div class="form-check">
+                    <input class="form-check-input q5" type="radio" name="q5" id="q5_si" value="SI" required>
+                    <label class="form-check-label" for="q5_si">SI</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input q5" type="radio" name="q5" id="q5_no" value="NO">
+                    <label class="form-check-label" for="q5_no">NO</label>
+                  </div>
+                </div>
+                <div class="invalid-feedback">Selecciona SI o NO.</div>
+              </div>
+    
+              <div class="mb-3 d-none form-card" id="q5_sub_no">
+                <label for="q5_no_comment" class="form-label">Si su respuesta es “No” por favor ayudemos a mejorar y coméntenos como podemos hacerlo?.</label>
+                <textarea id="q5_no_comment" name="q5_no_comment" class="form-control" rows="2"></textarea>
+              </div>
+    
+              <!-- Pregunta 6 -->
+              <div class="mb-3 form-card">
+                <label class="form-label"><span class="question-number">6</span>Selecciona cuál de los siguientes servicios haz utilizado en la <strong>Sede Recreacional Punta Bolivar Cooeducord</strong>, en Punta Bolívar, durante el último año. *</label>
+                <div>
+                  <div class="form-check">
+                    <input type="checkbox" name="q6" id="q6_pasadia" value="Pasadia"  class="form-check-input">
+                    <label for="q6_pasadia" class="form-check-label">Pasadia</label>
+                  </div>
+
+                  <div class="form-check">
+                    <input type="checkbox" name="q6" id="q6_hospedaje" value="Hospedaje"  class="form-check-input">
+                    <label for="q6_hospedaje" class="form-check-label">Hospedaje</label>
+                  </div>
+
+                  <div class="form-check">
+                    <input type="checkbox" name="q6" id="q6_evento" value="Evento"  class="form-check-input">
+                    <label for="q6_evento" class="form-check-label">Evento</label>
+                  </div>
+
+                  <div class="form-check">
+                    <input type="checkbox" name="q6" id="q6_ninguno" value="Ninguno" class="form-check-input">
+                    <label for="q6_ninguno" class="form-check-label">Ninguno</label>
+                  </div>
+              </div>
+              </div>
+    
+              <!-- Preguntas 7 -->
+              <div class="mb-3 form-card">
+                <label for="fortalezas" class="form-label"><span class="question-number">7</span>Recomendaría usted los servicios de la Cooperativa a los nuevos docentes vinculados al sector del magisterio para afiliarse? *</label>
+                
+                <div>
+                  <div class="form-check">
+                    <input class="form-check-input q7" type="radio" name="q7" id="q7_si" value="SI" required>
+                    <label class="form-check-label" for="q7_si">SI</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input q7" type="radio" name="q7" id="q7_no" value="NO">
+                    <label class="form-check-label" for="q7_no">NO</label>
+                  </div>
+                </div>
+                <div class="invalid-feedback">Selecciona SI o NO.</div>
+              </div>
+
+              <div class="mb-3 d-none form-card" id="q7_sub_no">
+                <label for="q7_no_comment" class="form-label">Si su respuesta es “No” por favor ayudemos a mejorar y coméntenos como podemos hacerlo?.</label>
+                <textarea id="q7_no_comment" name="q7_no_comment" class="form-control" rows="2"></textarea>
+              </div>
+
+              <!-- Pregunta 8 -->
+              <div class="mb-3 form-card">
+                <label for="fortalezas" class="form-label"><span class="question-number">8</span>Tu opinión es importante, coméntanos dos fortalezas que tiene la Cooperativa? *</label>
+                <textarea id="fortalezas" name="fortalezas" class="form-control" rows="2" required></textarea>
+                <div class="invalid-feedback">Por favor escribe al menos una fortalezas.</div>
+              </div>
+
+              <!-- Pregunta 9 -->
+              <div class="mb-3 form-card">
+                <label for="oportunidades" class="form-label"><span class="question-number">9</span>Dinos dos oportunidades de mejora para la cooperativa con el fin de que podamos cumplir con tus expectativas? *</label>
+                <textarea id="oportunidades" name="oportunidades" class="form-control" rows="2" required></textarea>
+                <div class="invalid-feedback">Por favor escribe al menos una oportunidad.</div>
+              </div>
+
+              <!-- Pregunta 10 -->
+              <div class="mb-3 form-card">
+                <label for="debilidades" class="form-label"><span class="question-number">10</span>Cuáles son nuestras dos mayores debilidades que no nos dejan crecer? *</label>
+                <textarea id="debilidades" name="debilidades" class="form-control" rows="2" required></textarea>
+                <div class="invalid-feedback">Por favor escribe al menos una debilidad.</div>
+              </div>
+    
+              <!-- Pregunta 11 -->
+              <div class="mb-3 form-card">
+                <label for="amenazas" class="form-label"><span class="question-number">11</span>Según tu opinión cuales son las dos amenazas más latentes a las que se puede enfrentar <strong>COOEDUCORD</strong>? *</label>
+                <textarea id="amenazas" name="amenazas" class="form-control" rows="2" required></textarea>
+                <div class="invalid-feedback">Por favor escribe al menos una amenaza.</div>
+              </div>
+  
+    
+              <!-- AUTORIZACIÓN TRATAMIENTO DE DATOS (texto corto) -->
+              <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="autorizo" required>
+                <label class="form-check-label" for="autorizo">He leído y acepto la autorización para el tratamiento de mis datos personales (Ley 1581/2012). *</label>
+                <div class="invalid-feedback">Debes aceptar el tratamiento de datos para continuar.</div>
+              </div>
+    
+              <button id="submitBtn" class="btn btn-primary">Enviar encuesta</button>
+            </form>
+            
+            <div id="successMsg" class="alert alert-success mt-3 d-none">Respuesta guardada. ¡Gracias por participar!</div>
+
+            <div class="accordion accordion-flush mb-6" id="accordionFlushExample">
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                    <strong>AUTORIZACIÓN TRATAMIENTO DE DATOS</strong>
+                  </button>
+                </h2>
+                <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                  <div class="accordion-body">
+                    <P>
+                      En cumplimiento de la Ley 1581 de 2012, el Decreto 1377 de 2013 y demás normas aplicables sobre protección de datos personales en Colombia, autorizo de manera libre, previa, expresa, voluntaria e informada a COOEDUCORD, para que realice la recolección, almacenamiento, uso, circulación, supresión y en general el tratamiento de mis datos personales suministrados en esta encuesta.
+                    </P>
+                    <P>
+                      La información recopilada será utilizada exclusivamente para los siguientes fines:
+                    </P>
+                    <ol>
+                      <li>Realizar análisis internos y estudios estadísticos relacionados con los servicios, productos y nivel de satisfacción de los asociados.</li>
+                      <li>Diseñar, mejorar y evaluar programas, proyectos y servicios ofrecidos por la cooperativa.</li>
+                      <li>Contactarme para ampliar información cuando sea necesario o comunicar resultados relacionados con esta encuesta.</li>
+                      <li>Cumplir con obligaciones legales, contractuales y administrativas propias de la cooperativa.</li>
+                    </ol>
+                    <p>
+                      <strong>Derechos del titular:</strong>
+                    </p>
+
+                    <p>Como titular de la información, conozco que tengo derecho a:</p>
+                    <ul>
+                      <li>Acceder, actualizar, rectificar y suprimir mis datos personales.</li>
+                      <li>Solicitar prueba de esta autorización.</li>
+                      <li>Conocer el uso que la cooperativa ha dado a mis datos.</li>
+                      <li>Presentar quejas ante la Superintendencia de Industria y Comercio por infracción a las normas de protección de datos.</li>
+                    </ul>
+                    <p>
+                      Para ejercer estos derechos podré comunicarme a través de los canales oficiales de la cooperativa:
+                    </p>
+                    <p>
+                      <strong>Correo</strong>: recepcion@cooeducord.com
+                    </p>
+                    <p><strong>Telefono</strong>: 3126691491</p>
+                    <p><strong>Dirección</strong>: calle 22 # 2 - 35 Monteria Córdoba</p>
+                    <p>
+                      Declaro que he leído esta autorización, que la he entendido y que otorgo mi consentimiento para el tratamiento de mis datos personales en los términos anteriormente descritos.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                    TERMINOS Y CONDICIONES RIFA
+                  </button>
+                </h2>
+                <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                  <div class="accordion-body"><ul><li>Link habilitado hasta el 25 de NOVIEMBRE a las 5:00 PM</li>
+                  <li>El sorteo se realizará el 25 NOVIEMBRE</li>
+                  <li>El numero ganador será con las tres ultimas cifra de Sinuano noche</li>
+                  <li>El numero corresponde al orden en el cual fue diligenciada la encuesta.</li>
+                  <li>El consecutivo iniciara con 001 hasta el 999</li></ul></div>
+                </div>
+              </div>
+
+              
+            </div>
+      
+          </div>
+        </div>
+      </div>
+      <footer class="text-center text-muted mt-3">
+        <small>Derechos reservados COOEDUCORD 2025</small>
+      </footer>
+    
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" 
+              integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">
+      </script>
+      <script src="./public/assets/js/app.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+</html>
