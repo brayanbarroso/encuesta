@@ -11,35 +11,38 @@ while ($row = $stmt->fetch()) {
     $answers = json_decode($row['data'], true);
 
     $rows[] = [
+        // info general
         'id' => $row['id'],
         'identificacion' => $row['identificacion'],
         'created_at' => $row['created_at'],
 
         // Preguntas cerradas
+        // pregunta 1
         'q1' => $answers['q1'] ?? '',
-        'q1_no_comment' => $answers['q1_no_comment'] ?? '',
-
+        // pregunta 2
         'q2' => $answers['q2'] ?? '',
         'q2_no_comment' => $answers['q2_no_comment'] ?? '',
-
+        // pregunta 3
         'q3' => $answers['q3'] ?? '',
-
+        'q3_no_comment' => $answers['q3_no_comment'] ?? '',
+        // pregunta 4
         'q4' => $answers['q4'] ?? '',
         'q4_no_comment' => $answers['q4_no_comment'] ?? '',
-
+        // pregunta 5
         'q5' => $answers['q5'] ?? '',
         'q5_no_comment' => $answers['q5_no_comment'] ?? '',
-
+        // pregunta 6
         'q6' => $answers['q6'] ?? '',
-        'q6_no_comment' => $answers['q6_no_comment'] ?? '',
+        // pregunta 7
+        'q7' => $answers['q7'] ?? '',
+        'q7_no_comment' => $answers['q7_no_comment'] ?? '',
 
         // FODA
         'fortalezas' => $answers['fortalezas'] ?? '',
-        'debilidades' => $answers['debilidades'] ?? '',
         'oportunidades' => $answers['oportunidades'] ?? '',
+        'debilidades' => $answers['debilidades'] ?? '',
         'amenazas' => $answers['amenazas'] ?? '',
-        'otros' => $answers['otros'] ?? '',
-
+        // Autorizacion Datos
         'autorizado' => $answers['autorizado'] ?? ''
     ];
 }

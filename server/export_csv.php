@@ -13,7 +13,7 @@ $headers = [
 
     '1. ¿Conoce el portafolio de servicios?',
     
-    '2. ¿Los productos/servicios cubren sus necesidades?',
+    '2. ¿El portafolio de servicios, está acorde con sus necesidades?',
     'Comentario si respondió NO (P2)',
 
     '3. Nivel de satisfacción con la atención y tiempos de respuesta',

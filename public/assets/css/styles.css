@@ -1,6 +1,6 @@
 :root {
-  --coo-green: #2F9E44;
-  --coo-yellow: #F6C343;
+  --coo-green: #2f9e44;
+  --coo-yellow: #f6c343;
   --coo-white: #ffffff;
 }
 
@@ -10,8 +10,7 @@ body {
   font-family: "Roboto", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
-  font-variation-settings:
-    "wdth" 100;
+  font-variation-settings: "wdth" 100;
 }
 
 .card-title {
@@ -38,7 +37,7 @@ label {
 
 .form-control:focus {
   border-color: var(--coo-green);
-  box-shadow: 0 0 0 .15rem rgba(47, 158, 68, 0.12);
+  box-shadow: 0 0 0 0.15rem rgba(47, 158, 68, 0.12);
 }
 
 .alert-success {
@@ -75,36 +74,50 @@ label {
   margin-right: 15px;
 }
 
-.header{
+.header {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.header h1{
+.header h1 {
   text-transform: uppercase;
 }
 
-.header-logo{
+.header-logo {
   max-width: 100%;
   width: 200px;
 }
 
 @media only screen and (max-width: 600px) {
-  .header{
+  .header {
     flex-direction: column;
     justify-content: center;
     align-items: center;
   }
 
-  .header h1{
+  .header h1 {
     font-size: 24px;
     text-align: justify;
   }
-  
-  .header-logo{
+
+  .header-logo {
     max-width: 100%;
     width: 150px;
   }
 }
-  
+
+/* styles table */
+table td,
+table th {
+  font-size: 12px;
+  vertical-align: super;
+  width: 50px;
+}
+.sticky-header th {
+  position: sticky;
+  top: 0;
+  background: #020e00;
+  color: #fff;
+  z-index: 10;
+}
