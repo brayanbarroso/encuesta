@@ -8,7 +8,7 @@
       rel="icon"
       type="image/x-icon"
       sizes="32x32"
-      href="./public/assets/img/Logo.ico"
+      href="./assets/img/Logo.ico"
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -31,6 +31,29 @@
         <a href="../server/export_csv.php" class="btn btn-warning"
           >Descargar reporte CSV</a
         >
+      </div>
+
+      <div
+        id="adminControls"
+        class="d-flex justify-content-between align-items-center mb-2"
+      >
+        <div class="form-inline">
+          <label for="pageSizeSelect" class="me-2">Filas por página:</label>
+          <select
+            id="pageSizeSelect"
+            class="form-select"
+            style="width: auto; display: inline-block"
+          >
+            <option value="5">5</option>
+            <option value="10" selected>10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+          </select>
+        </div>
+
+        <div class="text-end">
+          <div id="tableInfo" class="small text-muted">Cargando...</div>
+        </div>
       </div>
 
       <div class="table-responsive">
@@ -63,7 +86,7 @@
               <th>5. ¿Usaría usted oficina virtual?</th>
               <th>Coment. NO</th>
 
-              <th>6. servicios haz utilizado en la sede recreacional</th>
+              <th>6.servicios que haz utilizado en la sede recreacional</th>
 
               <th>7.Recomendaría usted los servicios de la Cooperativa</th>
               <th>Coment. NO</th>
@@ -82,56 +105,11 @@
           <tbody></tbody>
         </table>
       </div>
+      <nav aria-label="Paginacion" class="mt-2">
+        <ul id="pagination" class="pagination justify-content-center"></ul>
+      </nav>
     </div>
 
-    <script>
-      async function loadResponses() {
-        const res = await fetch("../server/get_responses_table.php");
-        const data = await res.json();
-
-        const tbody = document.querySelector("#responsesTable tbody");
-        tbody.innerHTML = "";
-
-        data.forEach((item) => {
-          const tr = document.createElement("tr");
-
-          tr.innerHTML = `
-          <td>${item.id}</td>
-        
-          <td>${item.created_at}</td>
-
-          <td>${item.q1}</td>
-
-          <td>${item.q2}</td>
-          <td>${item.q2_no_comment}</td>
-
-          <td>${item.q3}</td>
-          <td>${item.q3_no_comment}</td>
-
-          <td>${item.q4}</td>
-          <td>${item.q4_no_comment}</td>
-
-          <td>${item.q5}</td>
-          <td>${item.q5_no_comment}</td>
-
-          <td>${item.q6}</td>
-
-          <td>${item.q7}</td>
-          <td>${item.q7_no_comment}</td>
-
-          <td>${item.fortalezas}</td>
-          <td>${item.oportunidades}</td>
-          <td>${item.debilidades}</td>
-          <td>${item.amenazas}</td>
-          
-          <td>${item.autorizado}</td>
-        `;
-
-          tbody.appendChild(tr);
-        });
-      }
-
-      loadResponses();
-    </script>
+    <script src="./assets/js/admin.js"></script>
   </body>
 </html>
