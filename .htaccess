@@ -1,7 +1,9 @@
 Options -Indexes
 RewriteEngine On
 
-# Enviar todo a index.php
+# Servir /admin como /public/admin.html sin mostrar extensión ni ruta public/
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
+RewriteRule ^public/admin/?$ public/admin.html [L]
+
+
