@@ -1,35 +1,30 @@
 (function () {
-  const tbody = document.querySelector("#responsesTable tbody");
-  const paginationEl = document.getElementById("pagination");
-  const pageSizeSelect = document.getElementById("pageSizeSelect");
-  const infoEl = document.getElementById("tableInfo");
+  const tbody = document.querySelector("#rifaTable tbody");
+  const paginationEl = document.getElementById("rifaPagination");
+  const pageSizeSelect = document.getElementById("rifaPageSize");
+  const infoEl = document.getElementById("rifaInfo");
 
-  let responses = [];
+  let participants = [];
   let currentPage = 1;
 
-  const safe = (v) =>
-    Array.isArray(v)
-      ? v.filter(Boolean).join(", ")
-      : v === null || v === undefined
-      ? ""
-      : v;
+  const safe = (v) => (v === null || v === undefined ? "" : v);
 
-  async function fetchResponses() {
+  async function fetchParticipants() {
     try {
-      const res = await fetch("../server/get_responses_table.php");
+      const res = await fetch("../server/get_rifa_data.php");
       if (!res.ok) throw new Error("HTTP " + res.status);
       const data = await res.json();
-      responses = Array.isArray(data) ? data : [];
+      participants = Array.isArray(data) ? data : [];
       renderPage(1);
     } catch (err) {
-      console.error("Error loading responses", err);
-      tbody.innerHTML = `<tr><td colspan="19" class="text-danger">Error cargando respuestas: ${err.message}</td></tr>`;
+      console.error("Error loading participants", err);
+      tbody.innerHTML = `<tr><td colspan="6" class="text-danger">Error cargando participantes: ${err.message}</td></tr>`;
       infoEl.textContent = "Error cargando datos";
     }
   }
 
   function renderPage(page) {
-    const total = responses.length;
+    const total = participants.length;
     const pageSize = parseInt(pageSizeSelect.value, 10) || 10;
     const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
@@ -38,13 +33,13 @@
     currentPage = page;
 
     const start = (currentPage - 1) * pageSize;
-    const pageItems = responses.slice(start, start + pageSize);
+    const pageItems = participants.slice(start, start + pageSize);
 
     renderTableRows(pageItems);
     renderPagination(totalPages);
 
     if (total === 0) {
-      infoEl.textContent = "No hay respuestas";
+      infoEl.textContent = "No hay participantes";
     } else {
       infoEl.textContent = `Mostrando ${start + 1} - ${Math.min(
         start + pageSize,
@@ -57,44 +52,20 @@
     tbody.innerHTML = "";
     if (!items || items.length === 0) {
       tbody.innerHTML =
-        '<tr><td colspan="19" class="text-muted">No hay respuestas</td></tr>';
+        '<tr><td colspan="6" class="text-muted">No hay participantes</td></tr>';
       return;
     }
 
     items.forEach((item) => {
       const tr = document.createElement("tr");
       tr.innerHTML = `
-        <td>${safe(item.id)}</td>
-        <td>${safe(item.created_at)}</td>
-        <td>${safe(item.identificacion)}</td>
-        <td>${safe(item.nombre)}</td>
-
-        <td>${safe(item.q1)}</td>
-
-        <td>${safe(item.q2)}</td>
-        <td>${safe(item.q2_no_comment)}</td>
-
-        <td>${safe(item.q3)}</td>
-        <td>${safe(item.q3_no_comment)}</td>
-
-        <td>${safe(item.q4)}</td>
-        <td>${safe(item.q4_no_comment)}</td>
-
-        <td>${safe(item.q5)}</td>
-        <td>${safe(item.q5_no_comment)}</td>
-
-        <td>${safe(item.q6)}</td>
-
-        <td>${safe(item.q7)}</td>
-        <td>${safe(item.q7_no_comment)}</td>
-
-        <td>${safe(item.fortalezas)}</td>
-        <td>${safe(item.oportunidades)}</td>
-        <td>${safe(item.debilidades)}</td>
-        <td>${safe(item.amenazas)}</td>
-
-        <td>${safe(item.autorizado)}</td>
-      `;
+                        <td>${safe(item.id)}</td>
+                        <td>${safe(item.identificacion)}</td>
+                        <td>${safe(item.nombre)}</td>
+                        <td>${safe(item.telefono)}</td>
+                        <td>${safe(item.response_id)}</td>
+                        <td>${safe(item.created_at)}</td>
+                    `;
       tbody.appendChild(tr);
     });
   }
@@ -156,5 +127,5 @@
   pageSizeSelect.addEventListener("change", () => renderPage(1));
 
   // Init
-  fetchResponses();
+  fetchParticipants();
 })();

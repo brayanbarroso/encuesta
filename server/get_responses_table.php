@@ -2,7 +2,7 @@
 require_once __DIR__ . '/db.php';
 header('Content-Type: application/json; charset=utf-8');
 
-$stmt = $pdo->query("SELECT id, identificacion, data, created_at FROM responses ORDER BY created_at ASC");
+ $stmt = $pdo->query("SELECT r.id, r.identificacion, r.data, r.created_at, u.nombre FROM responses r LEFT JOIN users u ON u.identificacion = r.identificacion ORDER BY r.created_at ASC");
 
 $rows = [];
 
@@ -13,8 +13,11 @@ while ($row = $stmt->fetch()) {
     $rows[] = [
         // info general
         'id' => $row['id'],
-        'identificacion' => $row['identificacion'],
+
         'created_at' => $row['created_at'],
+
+        'identificacion' => $row['identificacion'],
+        'nombre' => $row['nombre'] ?? '',
 
         // Preguntas cerradas
         // pregunta 1

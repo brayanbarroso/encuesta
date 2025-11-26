@@ -19,12 +19,14 @@ use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Cell\Cell;
 
 // Obtener respuestas
-$stmt = $pdo->query("SELECT * FROM responses ORDER BY created_at ASC");
+$stmt = $pdo->query("SELECT r.id, r.identificacion, r.data, r.created_at, u.nombre FROM responses r LEFT JOIN users u ON u.identificacion = r.identificacion ORDER BY r.created_at ASC");
 
 // Encabezados
 $headers = [
     'N° Encuesta',
     'Fecha',
+    'Identificación',
+    'Nombre',
 
     '1. Conoce el portafolio de servicios?',
     '2. El portafolio de servicios, está acorde con sus necesidades?',
@@ -77,6 +79,8 @@ while ($row = $stmt->fetch()) {
     $values = [
         $row['id'],
         $row['created_at'],
+        $row['identificacion'],
+        $row['nombre'] ?? '',
 
         $safe($answers['q1'] ?? ''),
 
@@ -115,11 +119,47 @@ while ($row = $stmt->fetch()) {
     $rowNum++;
 }
 
-// Auto size columns
+// Fijar anchos de columna (en caracteres) por índice de columna
 $highestCol = $sheet->getHighestColumn();
 $highestColIndex = Coordinate::columnIndexFromString($highestCol);
+
+// Definir anchos preferidos por columna (1-based index)
+$widths = [
+    1 => 8,   // N° Encuesta
+    2 => 15,  // Fecha
+    3 => 18,  // Identificación
+
+    4 => 20,  // q1
+    5 => 20,  // q2
+    6 => 20,  // q2_no_comment
+
+    7 => 12,  // q3
+    8 => 20,  // q3_no_comment
+
+    9 => 12,  // q4
+    10 => 20, // q4_no_comment
+
+    11 => 12, // q5
+    12 => 20, // q5_no_comment
+
+    13 => 20, // q6
+
+    14 => 12, // q7
+    15 => 20, // q7_no_comment
+
+    16 => 20, // fortalezas
+    17 => 20, // oportunidades
+    18 => 20, // debilidades
+    19 => 20, // amenazas
+
+    20 => 15, // autorizado
+
+    21 => 15   // Nombre
+];
+
 for ($i = 1; $i <= $highestColIndex; $i++) {
-    $sheet->getColumnDimensionByColumn($i)->setAutoSize(true);
+    $w = isset($widths[$i]) ? $widths[$i] : 20;
+    $sheet->getColumnDimensionByColumn($i)->setWidth($w);
 }
 
 // Escribir archivo en salida
