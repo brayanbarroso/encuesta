@@ -17,6 +17,7 @@
     </style>
   </head>
   <body class="bg-light">
+    <script src="./assets/js/auth-check.js"></script>
     <div class="container py-4">
       <h3 class="mb-4">Reporte - Análisis de la Encuesta</h3>
       <div id="summary" class="mb-3 small text-muted">Cargando...</div>
@@ -35,8 +36,8 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-   
-   <script>
+
+    <script>
       (async function () {
         const res = await fetch("../server/get_report_data.php");
         if (!res.ok) {
@@ -151,6 +152,32 @@
             responsive: true,
             plugins: { legend: { display: false } },
           },
+        });
+      })();
+    </script>
+    <script>
+      // Logout handler
+      (function () {
+        const logoutLink = document.createElement("a");
+        logoutLink.href = "#";
+        logoutLink.textContent = "Cerrar sesión";
+        logoutLink.style.position = "fixed";
+        logoutLink.style.top = "10px";
+        logoutLink.style.right = "20px";
+        logoutLink.style.zIndex = "9999";
+        logoutLink.style.color = "#007bff";
+        logoutLink.style.textDecoration = "none";
+        logoutLink.style.fontSize = "14px";
+        document.body.appendChild(logoutLink);
+
+        logoutLink.addEventListener("click", async (e) => {
+          e.preventDefault();
+          try {
+            await fetch("../server/logout.php");
+          } catch (err) {
+            console.error("Error en logout:", err);
+          }
+          window.location.href = "login.html";
         });
       })();
     </script>

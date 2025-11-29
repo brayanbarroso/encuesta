@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Login - Encuesta</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+      .login-card {
+        width: 100%;
+        max-width: 400px;
+        padding: 2rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      }
+      .login-card h2 {
+        text-align: center;
+        margin-bottom: 1.5rem;
+        color: #333;
+      }
+      .form-group {
+        margin-bottom: 1rem;
+      }
+      .alert {
+        display: none;
+      }
+      .alert.show {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-card">
+      <h2>Acceso Admin</h2>
+
+      <div id="alert" class="alert alert-danger"></div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="user" class="form-label">Usuario</label>
+          <input
+            type="text"
+            class="form-control"
+            id="user"
+            name="user"
+            required
+            placeholder="usuario"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="pass" class="form-label">Contraseña</label>
+          <input
+            type="password"
+            class="form-control"
+            id="pass"
+            name="pass"
+            required
+            placeholder="contraseña"
+          />
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+      </form>
+
+      <div
+        id="loading"
+        style="display: none; text-align: center; margin-top: 1rem"
+      >
+        <div class="spinner-border spinner-border-sm" role="status">
+          <span class="visually-hidden">Cargando...</span>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const user = document.getElementById("user").value.trim();
+          const pass = document.getElementById("pass").value.trim();
+          const alertEl = document.getElementById("alert");
+          const loadingEl = document.getElementById("loading");
+
+          if (user === "" || pass === "") {
+            alertEl.textContent = "Por favor completa todos los campos";
+            alertEl.classList.add("show");
+            return;
+          }
+
+          loadingEl.style.display = "block";
+          alertEl.classList.remove("show");
+
+          try {
+            const res = await fetch("../server/login.php", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ user, pass }),
+            });
+
+            const data = await res.json();
+
+            if (data.success) {
+              // Redirigir a admin
+              window.location.href = "admin";
+            } else {
+              alertEl.textContent = data.message || "Error en autenticación";
+              alertEl.classList.add("show");
+            }
+          } catch (err) {
+            console.error("Error:", err);
+            alertEl.textContent = "Error de conexión: " + err.message;
+            alertEl.classList.add("show");
+          } finally {
+            loadingEl.style.display = "none";
+          }
+        });
+    </script>
+  </body>
+</html>

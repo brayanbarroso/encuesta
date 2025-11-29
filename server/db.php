@@ -1,6 +1,6 @@
 <?php
 // server/db.php
-header('Content-Type: application/json; charset=utf-8');
+// Nota: No seteamos Content-Type aquí; cada script lo setea según su necesidad
 
 $DB_HOST = 'localhost';
 $DB_NAME = 'coo_survey';
