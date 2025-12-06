@@ -13,8 +13,8 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     exit;
 }
 
-// Verificar timeout (opcional: 30 minutos)
-$timeout = 30 * 60; // 30 minutos en segundos
+// Verificar timeout (inactividad): 5 minutos
+$timeout = 5 * 60; // 5 minutos en segundos
 if (isset($_SESSION['login_time']) && (time() - $_SESSION['login_time']) > $timeout) {
     session_destroy();
     header('Content-Type: application/json; charset=utf-8');

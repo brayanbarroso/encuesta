@@ -99,6 +99,9 @@
     });
   }
 
+  // Logout handler
+
+  // paginacion
   function renderPagination(totalPages) {
     paginationEl.innerHTML = "";
 
@@ -158,3 +161,4 @@
   // Init
   fetchResponses();
 })();
+

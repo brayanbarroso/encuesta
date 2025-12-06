@@ -46,8 +46,16 @@
                 >Reporte Respuestas</a
               >
             </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="rifa">Reporte Rifa</a>
+            <li class="nav-item">
+              <a class="nav-link active" href="rifa">Reporte Rifa</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="reporte">Reporte</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#" id="logoutBtn">Cerrar sesión</a>
             </li>
           </ul>
         </div>
@@ -108,5 +116,21 @@
       crossorigin="anonymous"
     ></script>
     <script src="./assets/js/rifa.js"></script>
+    <script src="./assets/js/auth-check.js"></script>
+    <script>
+      // Logout handler
+      document
+        .getElementById("logoutBtn")
+        .addEventListener("click", async (e) => {
+          e.preventDefault();
+          try {
+            await fetch("../server/logout.php");
+          } catch (err) {
+            console.error("Error en logout:", err);
+          } finally {
+            window.location.href = "../login";
+          }
+        });
+    </script>
   </body>
 </html>

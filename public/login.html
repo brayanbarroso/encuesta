@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Login - Encuesta</title>
     <link
+      rel="shortcut icon"
+      href="./assets/img/Logo.ico"
+      type="image/x-icon"
+      sizes="40x40"
+    />
+    <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
@@ -105,7 +111,7 @@
           alertEl.classList.remove("show");
 
           try {
-            const res = await fetch("../server/login.php", {
+            const res = await fetch("./server/login.php", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ user, pass }),
@@ -115,7 +121,7 @@
 
             if (data.success) {
               // Redirigir a admin
-              window.location.href = "admin";
+              window.location.href = "public/admin";
             } else {
               alertEl.textContent = data.message || "Error en autenticación";
               alertEl.classList.add("show");

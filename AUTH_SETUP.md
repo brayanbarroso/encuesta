@@ -72,7 +72,7 @@ Para crear un nuevo usuario:
 - **Algoritmo**: bcrypt (PASSWORD_BCRYPT)
 - **Verificación**: `password_verify($pass, $hash)` en PHP
 - **Seguridad**: Las contraseñas nunca se almacenan en texto plano
-- **Timeout de sesión**: 30 minutos sin actividad
+- **Timeout de sesión**: 5 minutos sin actividad
 
 ## 6. Cambios en el código
 

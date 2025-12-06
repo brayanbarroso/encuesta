@@ -2,11 +2,19 @@
 // server/db.php
 // Nota: No seteamos Content-Type aquí; cada script lo setea según su necesidad
 
+// Datos de conexión en desarrollo
 $DB_HOST = 'localhost';
 $DB_NAME = 'coo_survey';
 $DB_USER = 'root';
 $DB_PASS = 'bbarroso01';
 $DB_CHARSET = 'utf8mb4';
+
+// Datos de conexión en producción
+// $DB_HOST = 'localhost';
+// $DB_NAME = 'cooeducord_encuesta';
+// $DB_USER = 'cooeducord';
+// $DB_PASS = 'Cooeducord2025*';
+// $DB_CHARSET = 'utf8mb4';
 
 $dsn = "mysql:host=$DB_HOST;dbname=$DB_NAME;charset=$DB_CHARSET";
 $options = [
