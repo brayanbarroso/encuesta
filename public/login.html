@@ -14,42 +14,13 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <style>
-      body {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 100vh;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      }
-      .login-card {
-        width: 100%;
-        max-width: 400px;
-        padding: 2rem;
-        background: white;
-        border-radius: 8px;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-      }
-      .login-card h2 {
-        text-align: center;
-        margin-bottom: 1.5rem;
-        color: #333;
-      }
-      .form-group {
-        margin-bottom: 1rem;
-      }
-      .alert {
-        display: none;
-      }
-      .alert.show {
-        display: block;
-      }
-    </style>
+    <link rel="stylesheet" href="./public/assets/css/login.css" />
   </head>
   <body>
     <div class="login-card">
-      <h2>Acceso Admin</h2>
-
+      <div class="logo">
+        <img src="./public/assets/img/Logo.png" alt="Cooeducord Logo" />
+      </div>
       <div id="alert" class="alert alert-danger"></div>
 
       <form id="loginForm">
@@ -89,51 +60,12 @@
         </div>
       </div>
     </div>
-
-    <script>
-      document
-        .getElementById("loginForm")
-        .addEventListener("submit", async (e) => {
-          e.preventDefault();
-
-          const user = document.getElementById("user").value.trim();
-          const pass = document.getElementById("pass").value.trim();
-          const alertEl = document.getElementById("alert");
-          const loadingEl = document.getElementById("loading");
-
-          if (user === "" || pass === "") {
-            alertEl.textContent = "Por favor completa todos los campos";
-            alertEl.classList.add("show");
-            return;
-          }
-
-          loadingEl.style.display = "block";
-          alertEl.classList.remove("show");
-
-          try {
-            const res = await fetch("./server/login.php", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ user, pass }),
-            });
-
-            const data = await res.json();
-
-            if (data.success) {
-              // Redirigir a admin
-              window.location.href = "public/admin";
-            } else {
-              alertEl.textContent = data.message || "Error en autenticación";
-              alertEl.classList.add("show");
-            }
-          } catch (err) {
-            console.error("Error:", err);
-            alertEl.textContent = "Error de conexión: " + err.message;
-            alertEl.classList.add("show");
-          } finally {
-            loadingEl.style.display = "none";
-          }
-        });
-    </script>
+    <!-- booststrap -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./public/assets/js/login.js"></script>
   </body>
 </html>
