@@ -144,7 +144,7 @@
   const fodaContainer = document.getElementById("foda");
   ["fortalezas", "oportunidades", "debilidades", "amenazas"].forEach((k) => {
     const col = document.createElement("div");
-    col.className = "col-md-4";
+    col.className = "col-md-6";
     const card = document.createElement("div");
     card.className = "card p-3";
     const h = document.createElement("h6");

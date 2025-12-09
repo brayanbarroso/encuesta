@@ -15,30 +15,13 @@
         height: 150px;
       }
 
-      /* Pantallas grandes (≥1200px): 3 gráficas por fila */
-      @media (min-width: 920px) {
-        .yesno-chart-col {
-          flex: 0 0 33.333333%;
-        }
+      .container {
+        max-width: 1250px;
       }
 
-      /* Pantallas medianas (992px - 1199px): 2 gráficas por fila */
-      @media (min-width: 740px) and (max-width: 900px) {
-        .yesno-chart-col {
-          flex: 0 0 50%;
-        }
-      }
-
-      /* Pantallas pequeñas (<740px): 2 gráficas por fila */
-      @media (max-width: 739px) {
-        .yesno-chart-col {
-          flex: 0 0 50%;
-        }
-      }
-
-      /* Por defecto (740px - 991px): 2 gráficas por fila */
       .yesno-chart-col {
-        flex: 0 0 50%;
+        flex: 1 1 calc(33.3% - 0.5rem);
+        min-width: 300px;
       }
     </style>
   </head>
@@ -80,7 +63,7 @@
       </div>
     </nav>
 
-    <div class="container py-4">
+    <main class="container py-4">
       <h3 class="mb-4">Reporte - Análisis de la Encuesta</h3>
       <div id="summary" class="mb-3 small text-muted">Cargando...</div>
 
@@ -95,7 +78,19 @@
           <canvas id="servicesChart"></canvas>
         </div>
       </div>
-    </div>
+    </main>
+
+    <footer>
+      <div class="text-center pt-3 small text-muted">
+        &copy; 2025 Cooeducord. Todos los derechos reservados.
+      </div>
+      <div class="text-center pb-3 small text-muted">
+        diseñado y desarrollado por
+        <a href="https://github.com/brayanbarroso/" target="_blank"
+          >Brian Barroso</a
+        >
+      </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="./assets/js/auth-check.js"></script>
