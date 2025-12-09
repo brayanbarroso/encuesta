@@ -12,7 +12,33 @@
     <style>
       canvas {
         max-width: 100%;
-        height: 320px;
+        height: 150px;
+      }
+
+      /* Pantallas grandes (≥1200px): 3 gráficas por fila */
+      @media (min-width: 920px) {
+        .yesno-chart-col {
+          flex: 0 0 33.333333%;
+        }
+      }
+
+      /* Pantallas medianas (992px - 1199px): 2 gráficas por fila */
+      @media (min-width: 740px) and (max-width: 900px) {
+        .yesno-chart-col {
+          flex: 0 0 50%;
+        }
+      }
+
+      /* Pantallas pequeñas (<740px): 2 gráficas por fila */
+      @media (max-width: 739px) {
+        .yesno-chart-col {
+          flex: 0 0 50%;
+        }
+      }
+
+      /* Por defecto (740px - 991px): 2 gráficas por fila */
+      .yesno-chart-col {
+        flex: 0 0 50%;
       }
     </style>
   </head>
@@ -74,149 +100,21 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="./assets/js/auth-check.js"></script>
 
-    <script>
-      (async function () {
-        const res = await fetch("../server/get_report_data.php");
-        if (!res.ok) {
-          document.getElementById("summary").textContent =
-            "Error cargando reporte: HTTP " + res.status;
-          return;
-        }
-        const data = await res.json();
-
-        document.getElementById(
-          "summary"
-        ).textContent = `Respuestas totales: ${data.total_responses}`;
-
-        // Yes/No: crear un gráfico por pregunta
-        const yesno = data.yesno || {};
-        const yesnoContainer = document.getElementById("yesno-charts");
-        Object.keys(yesno)
-          .sort()
-          .forEach((q) => {
-            const info = yesno[q];
-            const title = q.toUpperCase();
-
-            const col = document.createElement("div");
-            col.className = "col-md-6";
-            const card = document.createElement("div");
-            card.className = "card p-3";
-            const h = document.createElement("h5");
-            h.textContent = title;
-            h.className = "mb-2";
-            const canvas = document.createElement("canvas");
-            card.appendChild(h);
-            card.appendChild(canvas);
-            col.appendChild(card);
-            yesnoContainer.appendChild(col);
-
-            const labels = ["Sí", "No", "Otro"];
-            const values = [
-              info.percent.yes || 0,
-              info.percent.no || 0,
-              info.percent.other || 0,
-            ];
-
-            new Chart(canvas.getContext("2d"), {
-              type: "doughnut",
-              data: {
-                labels,
-                datasets: [
-                  {
-                    data: values,
-                    backgroundColor: ["#28a745", "#dc3545", "#6c757d"],
-                  },
-                ],
-              },
-              options: {
-                plugins: { legend: { position: "bottom" } },
-                responsive: true,
-              },
-            });
-          });
-
-        // FODA: mostrar top mentions lists
-        const foda = data.foda || {};
-        const fodaContainer = document.getElementById("foda");
-        ["fortalezas", "oportunidades", "debilidades", "amenazas"].forEach(
-          (k) => {
-            const col = document.createElement("div");
-            col.className = "col-md-6";
-            const card = document.createElement("div");
-            card.className = "card p-3";
-            const h = document.createElement("h6");
-            h.textContent = k.charAt(0).toUpperCase() + k.slice(1);
-            card.appendChild(h);
-
-            const ul = document.createElement("ol");
-            const items = foda[k] || {};
-            let i = 0;
-            for (const [text, count] of Object.entries(items)) {
-              if (i >= 10) break;
-              const li = document.createElement("li");
-              li.textContent = `${text} — ${count}`;
-              ul.appendChild(li);
-              i++;
-            }
-            if (i === 0) {
-              const p = document.createElement("p");
-              p.className = "text-muted";
-              p.textContent = "No hay menciones";
-              card.appendChild(p);
-            } else card.appendChild(ul);
-
-            col.appendChild(card);
-            fodaContainer.appendChild(col);
-          }
-        );
-
-        // Services chart
-        const services = data.services || {};
-        const svcLabels = Object.keys(services).slice(0, 20);
-        const svcValues = svcLabels.map((l) => services[l]);
-
-        const ctx = document.getElementById("servicesChart").getContext("2d");
-        new Chart(ctx, {
-          type: "bar",
-          data: {
-            labels: svcLabels,
-            datasets: [
-              { label: "Veces", data: svcValues, backgroundColor: "#007bff" },
-            ],
-          },
-          options: {
-            indexAxis: "y",
-            responsive: true,
-            plugins: { legend: { display: false } },
-          },
-        });
-      })();
-    </script>
+    <script src="./assets/js/report.js"></script>
     <script>
       // Logout handler
-      (function () {
-        const logoutLink = document.createElement("a");
-        logoutLink.href = "#";
-        logoutLink.textContent = "Cerrar sesión";
-        logoutLink.style.position = "fixed";
-        logoutLink.style.top = "10px";
-        logoutLink.style.right = "20px";
-        logoutLink.style.zIndex = "9999";
-        logoutLink.style.color = "#007bff";
-        logoutLink.style.textDecoration = "none";
-        logoutLink.style.fontSize = "14px";
-        document.body.appendChild(logoutLink);
-
-        logoutLink.addEventListener("click", async (e) => {
+      document
+        .getElementById("logoutBtn")
+        .addEventListener("click", async (e) => {
           e.preventDefault();
           try {
             await fetch("../server/logout.php");
           } catch (err) {
             console.error("Error en logout:", err);
+          } finally {
+            window.location.href = "../login";
           }
-          window.location.href = "login.html";
         });
-      })();
     </script>
   </body>
 </html>
