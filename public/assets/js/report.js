@@ -7,6 +7,11 @@
   }
   const data = await res.json();
 
+  // Guardar datos para el generador de PDF
+  if (window.setReportData) {
+    window.setReportData(data);
+  }
+
   document.getElementById(
     "summary"
   ).textContent = `Respuestas totales: ${data.total_responses}`;
@@ -24,6 +29,7 @@
   // Yes/No: crear un gráfico por pregunta
   const yesno = data.yesno || {};
   const yesnoContainer = document.getElementById("yesno-charts");
+  const yesnoCharts = [];
   Object.keys(yesno)
     .sort()
     .filter((q) => q !== "q6") // Excluir q6 (no es sí/no)
@@ -67,6 +73,9 @@
 
       // Gráfico
       const canvas = document.createElement("canvas");
+      // tag the canvas with the question key so PDF mapping is robust
+      canvas.id = `yesno-${q}`;
+      canvas.dataset.qkey = q;
       card.appendChild(canvas);
 
       // Tabla de porcentajes (después del gráfico)
@@ -121,7 +130,7 @@
       const labels = ["Sí", "No"];
       const values = [info.percent.yes || 0, info.percent.no || 0];
 
-      new Chart(canvas.getContext("2d"), {
+      const ch = new Chart(canvas.getContext("2d"), {
         type: "doughnut",
         data: {
           labels,
@@ -137,6 +146,7 @@
           responsive: true,
         },
       });
+      yesnoCharts.push(ch);
     });
 
   // FODA: mostrar top mentions lists
@@ -171,14 +181,13 @@
     col.appendChild(card);
     fodaContainer.appendChild(col);
   });
-
   // Services chart
   const services = data.services || {};
   const svcLabels = Object.keys(services).slice(0, 20);
   const svcValues = svcLabels.map((l) => services[l]);
 
-  const ctx = document.getElementById("servicesChart").getContext("2d");
-  new Chart(ctx, {
+  const svcCtx = document.getElementById("servicesChart").getContext("2d");
+  const servicesChart = new Chart(svcCtx, {
     type: "bar",
     data: {
       labels: svcLabels,

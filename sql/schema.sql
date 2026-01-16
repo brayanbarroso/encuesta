@@ -37,3 +37,8 @@ INSERT IGNORE INTO admins (username, email, password_hash) VALUES
 -- Para generar un hash de una contraseña, usa: password_hash('tucontraseña', PASSWORD_BCRYPT)
 
 CREATE INDEX idx_ident ON responses(identificacion);
+
+-- Migration: Agregar columnas para restablecimiento de contraseña
+ALTER TABLE admins ADD COLUMN reset_token VARCHAR(255) DEFAULT NULL;
+ALTER TABLE admins ADD COLUMN reset_token_expires DATETIME DEFAULT NULL;
+

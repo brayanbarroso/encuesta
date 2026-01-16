@@ -15,7 +15,12 @@ if ($action === 'hash') {
     header('Content-Type: text/html; charset=utf-8');
     $pass = $_GET['pass'] ?? '';
     if ($pass === '') {
-        echo '<html><head><title>Generar Hash</title><style>body{font-family:Arial;margin:2rem}form{max-width:400px}label{display:block;margin-top:0.5rem}input,button{padding:0.5rem;margin-top:0.3rem;width:100%;box-sizing:border-box}button{background:#007bff;color:white;border:none;cursor:pointer;border-radius:4px}button:hover{background:#0056b3}</style></head><body>';
+        echo '<html>
+                <head>
+                    <title>Generar Hash</title>
+                    <style>body{font-family:Arial;margin:2rem}form{max-width:400px}label{display:block;margin-top:0.5rem}input,button{padding:0.5rem;margin-top:0.3rem;width:100%;box-sizing:border-box}button{background:#007bff;color:white;border:none;cursor:pointer;border-radius:4px}button:hover{background:#0056b3}</style>
+                </head>
+                <body>';
         echo '<h2>Generar Hash de Contraseña</h2>';
         echo '<form method="get">';
         echo '<label>Contraseña:</label>';
@@ -78,15 +83,157 @@ if ($action === 'create') {
         exit;
     }
 
-    header('Content-Type: application/json; charset=utf-8');
+    header('Content-Type: text/html; charset=utf-8');
     $hash = password_hash($pass, PASSWORD_BCRYPT);
+    $success = false;
+    $message = '';
+    
     try {
         $stmt = $pdo->prepare('INSERT INTO admins (username, email, password_hash) VALUES (?, ?, ?)');
         $stmt->execute([$username, $email ?: null, $hash]);
-        echo json_encode(['success' => true, 'message' => "Usuario '$username' creado correctamente"]);
+        $success = true;
+        $message = "Usuario '$username' creado correctamente";
     } catch (\Exception $e) {
-        echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
+        $success = false;
+        $message = 'Error: ' . $e->getMessage();
     }
+    
+    // Mostrar página de confirmación
+    $alertClass = $success ? 'alert-success' : 'alert-danger';
+    $alertIcon = $success ? '✓' : '✗';
+    $buttonColor = $success ? '#28a745' : '#dc3545';
+    $emailDisplay = $email ?: 'No especificado';
+    $currentDate = date('Y-m-d H:i:s');
+    
+    echo <<<HTML
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Creación de Usuario</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            padding: 2rem;
+            max-width: 500px;
+            text-align: center;
+        }
+        .alert {
+            padding: 1.5rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        p {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        .btn-container {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        a, button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        .btn-login {
+            background: $buttonColor;
+            color: white;
+        }
+        .btn-login:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        .btn-back {
+            background: #6c757d;
+            color: white;
+        }
+        .btn-back:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+        .details {
+            text-align: left;
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+            font-size: 0.95rem;
+        }
+        .details p {
+            margin: 0.5rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="alert $alertClass">
+            <div class="icon">$alertIcon</div>
+            <h2>$message</h2>
+        </div>
+HTML;
+
+    if ($success) {
+        echo <<<HTML
+        <div class="details">
+            <p><strong>Usuario:</strong> $username</p>
+            <p><strong>Email:</strong> $emailDisplay</p>
+            <p><strong>Fecha de creación:</strong> $currentDate</p>
+        </div>
+        <p>El usuario ha sido registrado exitosamente y puede usar sus credenciales para iniciar sesión.</p>
+HTML;
+    } else {
+        echo '<p>Por favor intenta nuevamente o contacta al administrador.</p>';
+    }
+    
+    echo <<<HTML
+        <div class="btn-container">
+            <a href="../login" class="btn-login">Ir al Login</a>
+            <a href="?action=create" class="btn-back">Crear otro usuario</a>
+        </div>
+    </div>
+</body>
+</html>
+HTML;
     exit;
 }
 
