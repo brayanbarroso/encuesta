@@ -1,1 +1,6 @@
 *.txt
+vendor/
+.env
+.env.local
+.env.*.local
+composer.lock

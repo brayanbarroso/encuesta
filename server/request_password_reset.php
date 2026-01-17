@@ -1,6 +1,12 @@
 <?php
 session_start();
+require_once __DIR__ . '/bootstrap.php';
 require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/MailSender.php';
+
+// Cargar variables de entorno
+loadEnv(__DIR__ . '/../.env');
+
 header('Content-Type: application/json; charset=utf-8');
 
 $input = json_decode(file_get_contents('php://input'), true);
@@ -32,22 +38,33 @@ try {
     $updateStmt = $pdo->prepare('UPDATE admins SET reset_token = ?, reset_token_expires = ? WHERE id = ?');
     $updateStmt->execute([$token, $expiresAt, $user['id']]);
 
-    // En producción: enviar email con enlace
-    // Para desarrollo, retornar enlace en respuesta (NO hacer esto en producción)
-    $resetLink = "https://localhost/encuesta_prueba/public/forgot-password.html?token=" . urlencode($token);
+    // Construir enlace de restablecimiento
+    $appUrl = $_ENV['APP_URL'] ?? 'http://localhost/encuesta_prueba';
+    $resetLink = $appUrl . "/recuperar-contrasena?token=" . urlencode($token);
 
-    // Log para depuración (remover en producción)
-    error_log("Reset link for {$user['username']}: {$resetLink}");
-
-    echo json_encode([
-        'success' => true,
-        'message' => 'Enlace de restablecimiento enviado',
-        'debug_link' => $resetLink // SOLO para desarrollo
-    ]);
+    // Enviar correo
+    try {
+        $mailer = new MailSender();
+        $mailer->sendPasswordReset($user['email'], $resetLink, $user['username']);
+        
+        echo json_encode([
+            'success' => true,
+            'message' => 'Enlace de restablecimiento enviado a tu correo'
+        ]);
+    } catch (Exception $e) {
+        error_log("Failed to send password reset email: " . $e->getMessage());
+        
+        // Respuesta segura (no revelar que falló el correo)
+        echo json_encode([
+            'success' => true,
+            'message' => 'Si el usuario existe, recibirá un enlace de restablecimiento por correo'
+        ]);
+    }
 
 } catch (Exception $e) {
     http_response_code(500);
-    echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
+    error_log('Password reset request error: ' . $e->getMessage());
+    echo json_encode(['success' => false, 'message' => 'Error procesando tu solicitud']);
     exit;
 }
 ?>

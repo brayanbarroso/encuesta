@@ -8,6 +8,6 @@ RewriteRule ^public/admin/?$ public/admin.html [L]
 RewriteRule ^public/rifa/?$ public/rifa.html [L]
 RewriteRule ^public/reporte/?$ public/report.html [L]
 RewriteRule ^login/?$ public/login.html [L]
-RewriteRule ^forgot-password/?$ public/forgot-password.html [L]
+RewriteRule ^recuperar-contrasena/?$ public/forgot-password.html [L]
 
 

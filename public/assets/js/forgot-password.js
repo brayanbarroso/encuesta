@@ -82,7 +82,7 @@ async function handleRequestReset() {
       successEl.style.display = "block";
       document.getElementById("requestForm").reset();
 
-      // En desarrollo, mostrar el enlace de debug con opciones de copiar y abrir
+      // Si existe debug_link (modo desarrollo), mostrar con opciones de copiar/abrir
       if (data.debug_link) {
         const debugContainer = document.getElementById("debugLinkContainer");
         const debugInput = document.getElementById("debugLinkInput");
@@ -91,8 +91,9 @@ async function handleRequestReset() {
 
         debugInput.value = data.debug_link;
         openBtn.href = data.debug_link;
+        debugContainer.style.display = "block";
 
-        // Botón copiar
+        // Botón copiar con feedback visual
         copyBtn.addEventListener("click", () => {
           debugInput.select();
           document.execCommand("copy");
@@ -106,15 +107,13 @@ async function handleRequestReset() {
             copyBtn.classList.remove("btn-success");
           }, 2000);
         });
-
-        debugContainer.style.display = "block";
       }
     } else {
       showError(data.message || "Error en la solicitud", "alert");
     }
   } catch (error) {
     console.error("Error:", error);
-    showError("Error en la solicitud", "alert");
+    showError("Error al procesar tu solicitud", "alert");
   } finally {
     btn.disabled = false;
     loadingEl.style.display = "none";
